@@ -19,10 +19,10 @@ Abaixo segue o código de exemplo:
 ```php
 require_once 'CNovaApiLojistaV2.php';
 
-Configuration::$apiKey['client_id'] = 'll0rQx9SSshr';
-Configuration::$apiKey['access_token'] = 'nllKgtXTMv0G';
+\cnova\client\Configuration::$apiKey['client_id'] = 'll0rQx9SSshr';
+\cnova\client\Configuration::$apiKey['access_token'] = 'nllKgtXTMv0G';
 
-$api_client = new ApiClient('https://sandbox.cnova.com/api/v2');
+$api_client = new \cnova\client\ApiClient('https://sandbox.cnova.com/api/v2');
 ```
 
 ## Operações auxiliares
@@ -75,11 +75,11 @@ API utilizada para operações de carga.
 Carga de produtos:
 
 ```php
-$loads = new LoadsApi($api_client);
+$loads = new \cnova\LoadsApi($api_client);
 
 // Criação de um novo produto
 
-$product = new Product();
+$product = new \cnova\model\Product();
 
 $product->sku_seller_id = 'CEL_LGG4';
 $product->product_seller_id = 'CEL';
@@ -94,19 +94,19 @@ $product->images = array (
         'http://img.g.org/img1.jpeg' 
 );
 
-$price = new ProductLoadPrices();
+$price = new \cnova\model\ProductLoadPrices();
 $price->default = 1999.0;
 $price->offer = 1799.0;
 
 $product->price = $price;
 
-$stock = new ProductLoadStock();
+$stock = new \cnova\model\ProductLoadStock();
 $stock->quantity = 100;
 $stock->cross_docking_time = 0;
 
 $product->stock = $stock;
 
-$dimensions = new Dimensions();
+$dimensions = new \cnova\model\Dimensions();
 $dimensions->weight = 10;
 $dimensions->length = 10;
 $dimensions->width = 10;
@@ -114,7 +114,7 @@ $dimensions->height = 10;
 
 $product->dimensions = $dimensions;
 
-$product_attr = new ProductAttribute();
+$product_attr = new \cnova\model\ProductAttribute();
 $product_attr->name = 'cor';
 $product_attr->value = 'Verde';
 
@@ -128,7 +128,7 @@ try {
     // Envia a carga de produtos
     $loads->postProducts($products);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
 
     $errors = deserializeErrors($e->getResponseBody(), $api_client);
     
@@ -146,14 +146,14 @@ try {
 Consulta de cargas enviadas:
 
 ```php
-$loads_api = new LoadsApi($api_client);
+$loads_api = new \cnova\LoadsApi($api_client);
 
 try {
 
     $get_products_response = $loads_api->getProducts(null, null, 0, 10);
     var_dump($get_products_response);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
 
     $errors = deserializeErrors($e->getResponseBody(), $api_client);
     
@@ -171,14 +171,14 @@ try {
 Consulta um produto específico da carga enviada:
 
 ```php
-$loads_api = new LoadsApi($api_client);
+$loads_api = new \cnova\LoadsApi($api_client);
 
 try {
 
     $get_product_with_errors_response = $loads_api->getProduct('CEL_LGG4');
     var_dump($get_product_with_errors_response);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
 
     $errors = deserializeErrors($e->getResponseBody(), $api_client);
     
@@ -196,20 +196,20 @@ try {
 Modificação do tracking de uma ou mais ordens, utilizando a API Loads:
 
 ```php
-$loads_api = new LoadsApi($api_client);
+$loads_api = new \cnova\LoadsApi($api_client);
 
-$orders_trackings = new OrdersTrackings();
+$orders_trackings = new \cnova\model\OrdersTrackings();
 
-$order_tracking = new OrderTracking();
+$order_tracking = new \cnova\model\OrderTracking();
 
-$order_id = new OrderId();
+$order_id = new \cnova\model\OrderId();
 $order_id->id = 123;
 $order_tracking->order = $order_id;
 
 $order_tracking->control_point = 'ABC';
 $order_tracking->cte = '123';
 
-$oif = new OrderItemReference();
+$oif = new \cnova\model\OrderItemReference();
 $oif->sku_seller_id = '123456';
 $oif->quantity = 1;
 
@@ -220,13 +220,13 @@ $order_tracking->seller_delivery_id = '99995439701';
 $order_tracking->number = '01092014';
 $order_tracking->url = 'servico envio2';
 
-$carrier = new Carrier();
+$carrier = new \cnova\model\Carrier();
 $carrier->cnpj = '72874279234';
 $carrier->name = 'Sedex';
 
 $order_tracking->carrier = $carrier;
 
-$invoice = new Invoice();
+$invoice = new \cnova\model\Invoice();
 $invoice->cnpj = '72874279234';
 $invoice->number = '123';
 $invoice->serie = '456';
@@ -243,7 +243,7 @@ try {
 
     $loads_api->postOrdersTrackingSent($orders_trackings);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
 
     $errors = deserializeErrors($e->getResponseBody(), $api_client);
     
@@ -265,14 +265,14 @@ API utilizada para gerenciamento dos recursos enviados pelo lojista.
 Consulta de seller items:
 
 ```php
-$seller_items_Api = new SellerItemsApi($api_client);
+$seller_items_Api = new \cnova\SellerItemsApi($api_client);
 
 try {
     
     $get_seller_items_response = $seller_items_Api->getSellerItems('EX', 0, 100);
     var_dump($get_seller_items_response);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -280,17 +280,17 @@ try {
 Alteração de preço:
 
 ```php
-$seller_items_api = new SellerItemsApi($api_client);
+$seller_items_api = new \cnova\SellerItemsApi($api_client);
 
 try {
 
-    $prices = new Prices();
+    $prices = new \cnova\model\Prices();
     $prices->default = 100;
     $prices->offer = 100;
 
     $seller_items_api->putSellerItemPrices('31.0019', $prices);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -298,17 +298,17 @@ try {
 Alteração de estoque:
 
 ```php
-$seller_items_api = new SellerItemsApi($api_client);
+$seller_items_api = new \cnova\SellerItemsApi($api_client);
 
 try {
 
-    $stock = new Stock();
+    $stock = new \cnova\model\Stock();
     $stock->quantity = 200;
     $stock->cross_docking_time = 0;
 
     $seller_items_api->putSellerItemStock('31.0019', $stock);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -320,12 +320,12 @@ API utilizada para gerenciamento de pedidos.
 Consulta todas as ordens:
 
 ```php
-$orders_api = new OrdersApi($api_client);
+$orders_api = new \cnova\OrdersApi($api_client);
 
 try {
     $get_orders_response =  $orders_api->getOrders(0, 100);
     var_dump($get_orders_response);
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -333,7 +333,7 @@ try {
 Consulta todas as ordens com status "novo":
 
 ```php
-$orders_api = new OrdersApi($api_client);
+$orders_api = new \cnova\OrdersApi($api_client);
 
 try {
 
@@ -342,7 +342,7 @@ try {
     $get_orders_response =  $orders_api->getOrdersByStatusNew($purchased_at, null, null, 0, 100);
     var_dump($get_orders_response);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -350,9 +350,9 @@ try {
 Criação de um novo tracking, notificando o envio da ordem:
 
 ```php
-$orders_api = new OrdersApi($api_client);
+$orders_api = new \cnova\OrdersApi($api_client);
 
-$new_tracking = new NewTracking();
+$new_tracking = new \cnova\model\NewTracking();
 
 $new_tracking->items = array('23258312-1', '23258312-2');
 
@@ -362,13 +362,13 @@ $new_tracking->seller_delivery_id = '99995439701';
 $new_tracking->number = '"01092014';
 $new_tracking->url = 'servico envio2';
 
-$carrier = new Carrier();
+$carrier = new \cnova\model\Carrier();
 $carrier->cnpj = '72874279234';
 $carrier->name = 'Sedex';
 
 $new_tracking->carrier = $carrier;
 
-$invoice = new Invoice();
+$invoice = new \cnova\model\Invoice();
 $invoice->cnpj = '72874279234';
 $invoice->number = '123';
 $invoice->serie = '456';
@@ -381,7 +381,7 @@ $new_tracking->invoice = $invoice;
 
 try {
     $orders_api->postOrderTrackingSent($new_tracking, '1024101');
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
 
     $errors = deserializeErrors($e->getResponseBody(), $api_client);
     
@@ -399,14 +399,14 @@ try {
 Consulta de ordens com status "enviado":
 
 ```php
-$orders_api = new OrdersApi($api_client);
+$orders_api = new \cnova\OrdersApi($api_client);
 
 try {
 
     $get_orders_response = $orders_api->getOrdersByStatusSent(null, null, null, 0, 100);
     var_dump($get_orders_response);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -418,7 +418,7 @@ API utilizada para gerenciamento de tickets.
 Criação de um novo ticket:
 
 ```php
-$tickets_api = new TicketsApi($api_client);
+$tickets_api = new cnova\TicketsApi($api_client);
 
 $new_ticket = new NewTicket();
 $new_ticket->to = 'atendimento+OS_706000500000@mktp.extra.com.br';
@@ -426,7 +426,7 @@ $new_ticket->body = 'Corpo da mensagem do ticket';
 
 try {
     $tickets_api->postTicket($new_ticket);
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
 
     $errors = deserializeErrors($e->getResponseBody(), $api_client);
     
@@ -444,14 +444,14 @@ try {
 Consulta ticket com status "Aberto":
 
 ```php
-$tickets_api = new TicketsApi($api_client);
+$tickets_api = new cnova\TicketsApi($api_client);
 
 try {
 
     $tickets = $tickets_api->getTickets('opened', '439211092852', null, null, null, 0, 5);
     var_dump($tickets);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -459,16 +459,16 @@ try {
 Alteração do status do ticket:
 
 ```php
-$tickets_api = new TicketsApi($api_client);
+$tickets_api = new cnova\TicketsApi($api_client);
 
 try {
 
-    $ticket_status = new TicketStatus();
+    $ticket_status = new \cnova\model\TicketStatus();
     $ticket_status->ticket_status = 'Em Acompanhamento';
 
     $tickets_api->putTicketStatus('123123', $ticket_status);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -480,7 +480,7 @@ API utilziada na obtenção da árvore de categorias disponível.
 Consulta as categorias disponíveis:
 
 ```php 
-$categories_api = new CategoriesApi($api_client);
+$categories_api = new cnova\CategoriesApi($api_client);
 
 try {
 
@@ -490,7 +490,7 @@ try {
         echo ($categorie->id . ' - ' . $categorie->name . "\n");
     }
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -502,14 +502,14 @@ API utilizada na obtenção da lista de sites.
 Consulta os sites disponíveis:
 
 ```php 
-$sites_api = new SitesApi($api_client);
+$sites_api = new \cnova\SitesApi($api_client);
 
 try {
 
     $get_sites_response = $sites_api->getSites();
     var_dump($get_sites_response);
     
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
@@ -521,14 +521,14 @@ API utilizada na obtenção da lista de warehouses (armazéns).
 Consulta as warehouses disponíveis:
 
 ```php 
-$warehouses_api = new WarehousesApi($api_client);
+$warehouses_api = new \cnova\WarehousesApi($api_client);
 
 try {
     
     $get_warehouses_response = $warehouses_api->getWarehouses();
     var_dump($get_warehouses_response);
 
-} catch (ApiException $e) {
+} catch (\cnova\client\ApiException $e) {
     echo ($e->getMessage());
 }
 ```
