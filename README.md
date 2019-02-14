@@ -2,6 +2,12 @@
 
 Fork do SDK oficial do marketplace da CNOVA/Via Varejo
 
+## Instalação
+
+```bash
+composer require bubbstore/cnova-php-sdk
+```
+
 -------------
 
 # SDK PHP para API V2 de Lojistas
