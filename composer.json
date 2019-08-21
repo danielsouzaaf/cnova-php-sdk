@@ -1,5 +1,5 @@
 {
-	"name": "MarvinH2G2/cnova-php-sdk",
+	"name": "marvinh2g2/cnova-php-sdk",
 	"type": "library",
 	"description": "Fork do SDK oficial do marketplace da CNOVA/Via Varejo",
 	"keywords": [
