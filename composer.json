@@ -1,12 +1,12 @@
 {
-	"name": "bubbstore/cnova-php-sdk",
+	"name": "MarvinH2G2/cnova-php-sdk",
 	"type": "library",
 	"description": "Fork do SDK oficial do marketplace da CNOVA/Via Varejo",
 	"keywords": [
 		"cnova"
 	],
 	"require": {
-		"php": "~5.6|~7.0"
+		"php": "^7.0"
 	},
     "scripts": {
         "test": "phpunit --colors=always"
@@ -19,8 +19,8 @@
 	"license": "MIT",
 	"authors": [
 		{
-			"name": "Lucas Colette",
-			"email": "lucas@bubb.com.b"
+			"name": "Miguel",
+			"email": "miguel"
 		}
 	],
 	"minimum-stability": "stable"
