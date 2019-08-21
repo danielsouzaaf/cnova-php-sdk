@@ -1,7 +1,7 @@
 {
 	"name": "parannoide/cnova-php-sdk",
 	"type": "library",
-	"version": "0.0.1" ,
+	"version": "v0.0.1" ,
 	"description": "Fork do SDK oficial do marketplace da CNOVA/Via Varejo",
 	"keywords": [
 		"cnova"
